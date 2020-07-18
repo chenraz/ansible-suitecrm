@@ -4,6 +4,5 @@
   become: true
   vars_files:
     - ../../defaults/main.yml
-
   roles:
     - role: chenraz.ansible_suitecrm

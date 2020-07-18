@@ -33,7 +33,6 @@ dependencies:
   - role: geerlingguy.php-versions
     vars:
       php_version: "7.4"
-
   - role: geerlingguy.php
     vars:
       php_default_version_debian: "7.2"
@@ -49,5 +48,5 @@ dependencies:
     vars:
       apache_fpm_proxy: "fcgi://127.0.0.1:9000{{ apache_documentroot }}"
 
-  - geerlingguy.git
-  - geerlingguy.composer
+  - role: geerlingguy.git
+  - role: geerlingguy.composer

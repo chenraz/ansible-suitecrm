@@ -14,8 +14,8 @@
   file:
     path: "{{ apache_documentroot }}"
     recurse: true
-    owner: "{{ web_user_owner }}"
-    group: "{{ web_user_group }}"
+    owner: "{{ suitecrm_web_user }}"
+    group: "{{ suitecrm_web_group }}"
     mode: 0755
   changed_when: false
 
