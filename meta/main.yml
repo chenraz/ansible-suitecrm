@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Chen Raz
+  description: suitecrm
+  company: Tilnet
+  license: license (GPL-2.0-or-later, MIT, etc)
+  min_ansible_version: 2.9
+  min_ansible_container_version: 2.4
+  galaxy_tags: []
+dependencies:
+  - geerlingguy.apache
+  - geerlingguy.php-versions
+  - geerlingguy.php
+  - geerlingguy.apache-php-fpm
+  - geerlingguy.git
+  - geerlingguy.composer

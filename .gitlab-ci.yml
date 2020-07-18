@@ -1,0 +1,29 @@
+---
+image: docker:latest
+
+variables:
+    ANSIBLE_ROLES_PATH: "$CI_PROJECT_DIR"
+
+services:
+    - docker:dind
+
+before_script:
+    - apk update && apk add --no-cache
+        python3-dev py3-pip gcc git curl build-base
+        autoconf automake py3-cryptography linux-headers
+        musl-dev libffi-dev openssl-dev openssh tree findutils
+    - allFiles=`find . -maxdepth 1 -mindepth 1  -not -name '.git' -printf '%p '`
+    - mkdir suitecrm
+    - cp -avr $allFiles suitecrm/
+    - docker info
+    - python3 --version
+    - python3 -m pip install ansible molecule[docker]
+    - ansible --version
+    - molecule --version    
+
+molecule:
+    stage: test
+    script:
+        - ANSIBLE_ROLES_PATH="$CI_PROJECT_DIR:$ANSIBLE_ROLES_PATH"
+        - cd suitecrm
+        - molecule test

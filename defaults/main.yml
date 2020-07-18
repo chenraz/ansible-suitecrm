@@ -1,0 +1,48 @@
+---
+    suitecrm_repo: https://github.com/salesagility/SuiteCRM.git
+    suitecrm_git_force: true
+    suitecrm_shared_group_dirs:
+        - cache
+        - custom
+        - modules
+        - themes
+        - data
+        - upload
+        - config_override.php
+    
+    apache_listen_port_ssl: 443
+    apache_documentroot: /var/www/vhosts/crmrole.co.il
+    apache_servername: crmrole.co.il
+    apache_create_vhosts: true
+    apache_remove_default_vhost: true
+    apache_vhosts_filename: crmrole.conf
+    apache_fpm_proxy: "fcgi://127.0.0.1:9000{{ apache_documentroot }}"
+    apache_vhosts:
+        - servername: "{{ apache_servername }}"
+          documentroot: "{{ apache_documentroot }}"
+          extra_parameters: |
+            ProxyPassMatch ^/(.*\.php(/.*)?)$ "{{ apache_fpm_proxy }}"
+    apache_packages:
+        - lynx
+        - apache2
+        - apache2-utils
+    apache_mods_enabled:
+        - headers.load
+        - proxy.load
+        - proxy_http2.load
+        - rewrite.load
+    
+    web_user_owner: www-data
+    web_user_group: www-data
+    
+    php_default_version_debian: "7.2"
+    php_version: "7.4"
+    php_fpm_daemon: "{{ php_version }}"
+    php_upload_max_filesize: "6M"
+    php_enable_php_fpm: true
+    php_install_recommends: true
+    
+    php_packages_extra:
+        - "php-zip"
+        - "php-intl"
+        - "php{{ php_version }}-mysqli"

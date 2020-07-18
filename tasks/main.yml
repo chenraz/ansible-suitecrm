@@ -1,0 +1,53 @@
+---
+# tasks file for suitecrm
+- name: Clone the git repo
+  git:
+    repo: "{{ suitecrm_repo }}"
+    dest: "{{ apache_documentroot }}"
+    force: "{{ suitecrm_git_force }}"
+  register: git_results
+  changed_when:
+    - git_results.failed != 'False'
+    - git_results.before != git_results.after
+
+- name: Adjush files owner and permissions
+  file:
+    path: "{{ apache_documentroot }}"
+    recurse: true
+    owner: "{{ web_user_owner }}"
+    group: "{{ web_user_group }}"
+    mode: 0755
+  changed_when: false
+
+- name: allow group access to folders
+  file:
+    path: "{{ apache_documentroot }}/{{ item }}"
+    recurse: true
+    mode: 0775
+  with_items: "{{ suitecrm_shared_group_dirs }}"
+  ignore_errors: true
+  changed_when: false
+
+- name: validate with composer
+  composer:
+    command: validate
+    working_dir: "{{ apache_documentroot }}"
+    no_dev: false
+  register: composer_validate_results
+  changed_when:
+    - "'composer.json is valid' not in composer_validate_results.msg"
+
+- name: install with composer
+  composer:
+    working_dir: "{{ apache_documentroot }}"
+    no_dev: false
+  register: composer_install_results
+
+- name: Debug the role
+  debug:
+    msg: |
+      git: {{ git_results }}
+      git_before: {{ git_results.before }}
+      composer_validate: {{ composer_validate_results }}
+      composer_validate_msg: {{ composer_validate_results.msg }}
+      composer_install: {{ composer_install_results }}

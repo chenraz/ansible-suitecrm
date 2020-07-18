@@ -1,0 +1,23 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  vars_files:
+    - ../../defaults/main.yml
+
+  tasks:
+    - name: Get the webpage content
+      uri:
+        url: "http://{{ apache_servername }}"
+        return_content: true
+      register: webpage
+
+    - name: Debug webcontent
+      debug:
+        var: webpage
+
+    - name: Make sure installation page is ready
+      fail:
+        msg: "Download page is not ready"
+      when: "'Setup Wizard' not in webpage.content"
