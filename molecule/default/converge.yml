@@ -6,4 +6,4 @@
     - ../../defaults/main.yml
 
   roles:
-    - role: suitecrm
+    - role: chenraz.ansible_suitecrm
