@@ -12,9 +12,9 @@ before_script:
         python3-dev py3-pip gcc git curl build-base
         autoconf automake py3-cryptography linux-headers
         musl-dev libffi-dev openssl-dev openssh tree findutils
-    # - allFiles=`find . -maxdepth 1 -mindepth 1  -not -name '.git' -printf '%p '`
-    # - mkdir suitecrm
-    # - cp -avr $allFiles suitecrm/
+    - allFiles=`find . -maxdepth 1 -mindepth 1  -not -name '.git' -printf '%p '`
+    - mkdir ansible-suitecrm
+    - cp -avr $allFiles ansible-suitecrm/
     - docker info
     - python3 --version
     - python3 -m pip install ansible molecule[docker]
@@ -24,6 +24,6 @@ before_script:
 molecule:
     stage: test
     script:
-        # - ANSIBLE_ROLES_PATH="$CI_PROJECT_DIR:$ANSIBLE_ROLES_PATH"
-        # - cd suitecrm
+        - ANSIBLE_ROLES_PATH="$CI_PROJECT_DIR:$ANSIBLE_ROLES_PATH"
+        - cd ansible-suitecrm
         - molecule test
