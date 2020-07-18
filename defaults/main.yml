@@ -11,11 +11,11 @@
         - config_override.php
     
     apache_listen_port_ssl: 443
-    apache_documentroot: /var/www/vhosts/crmrole.co.il
     apache_servername: crmrole.co.il
+    apache_documentroot: "/var/www/vhosts/{{ apache_servername }}"
     apache_create_vhosts: true
     apache_remove_default_vhost: true
-    apache_vhosts_filename: crmrole.conf
+    apache_vhosts_filename: "{{ apache_servername }}.conf"
     apache_fpm_proxy: "fcgi://127.0.0.1:9000{{ apache_documentroot }}"
     apache_vhosts:
         - servername: "{{ apache_servername }}"
